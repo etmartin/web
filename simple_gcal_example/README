@@ -9,3 +9,11 @@ API Browser
 	http://code.google.com/apis/gdata/jsdoc/2.2/index.html
 
 
+Notes to myself
+	- The open/close hours should be embedded somewhere else than in the
+	  calendar; There is two much entry to retreive otherwise.
+	- Let's first focus on the data retrieval aspect. No UI at this point.
+	  The UI should be decoupled from the data set such that if we eventually
+	  decide to ditch gcal then it's going to be easy.
+	  We just need a data model to present the availability / open / close / coupon hours...
+
