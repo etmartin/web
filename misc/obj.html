@@ -1,0 +1,62 @@
+<html>
+<head>
+
+<script type="text/javascript">
+
+function eat(){
+	document.write("Eat");
+}
+
+function displayDate(){
+	/* Create a direct obj INSTANCE */
+	personObj=new Object();
+	personObj.firstname="John";
+	personObj.lastname="Doe";
+	personObj.age=30;
+	personObj.eyecolor="blue";
+	personObj.eat=eat;
+
+	document.write(personObj.firstname);
+	personObj.eat();
+}
+
+/* 2 notation */
+//function person(a,b,c){
+person = function(a,b,c){
+	this.a=a;
+	this.b=b;
+	this.c=c
+	this.eat = eat;
+	document.write("COnstructor");
+}
+
+function d(){
+	var t = new person(1,2,3);
+	var a = new person(5,6,7);
+	var b = new person(8,9,10);
+
+	document.write(t.a);
+	t.eat();
+
+	document.write(a.a);
+	a.eat();
+	document.write(b.a);
+	b.eat();
+
+}
+
+</script>
+
+
+</head>
+
+<body>
+
+<h1>My First Web Page</h1>
+<p id="demo">This is a paragraph.</p>
+<button type="button" onclick="displayDate()" >Date </button>
+<button type="button" onclick="d()" >Date </button>
+
+</body>
+</html> 
+

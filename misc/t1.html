@@ -1,0 +1,42 @@
+<html>
+<head>
+
+<script type="text/javascript">
+function displayDate(){
+	document.getElementById("demo").innerHTML=Date();
+	document.getElementById("demo1").innerHTML=Date();
+	document.getElementById("demo2").innerHTML=Date();
+	document.getElementById("demo3").innerHTML=Date();
+}
+</script>
+
+<style type="text/css">
+	body{
+		background-color:#d0e4fe;
+	}
+	h1{
+		color:orange;
+		text-align:center;
+	}
+	p{
+		font-family:"Times New Roman";
+		font-size:10px;
+	}
+</style>
+
+</head>
+
+
+<body>
+
+<h1>My First Web Page</h1>
+<p id="demo">This is a paragraph.</p>
+<p id="demo1">This is a paragraph1.</p>
+<p id="demo2">This is a paragraph2.</p>
+<p id="demo3">This is a paragraph3.</p>
+
+<button type="button" onclick="displayDate()" >Date </button>
+
+</body>
+</html> 
+

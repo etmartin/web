@@ -1,0 +1,52 @@
+<html>
+<head>
+
+<script type="text/javascript">
+<!--
+
+function print1(a,b,c){
+	var x;
+	/* Array in c
+	 * int t[100];
+	 * In JS 
+	 */
+	var t = new Array(100);
+	// OR var t = [1,2,3,4,5,6,7,78,8,8,6,5,5,45];
+	//
+	var b = new String();
+
+	b="treterter";
+
+
+	for(x=0;x<100;x++){
+		t[x] = x+1;
+	}
+
+	for(x=0;x<10;x++){
+		document.write(t[x]);
+	}
+	document.write(b);
+}
+
+
+function print_test(){
+	var txt= new String ("We are the so-called \"Vikings\" from the north.");
+	// OR var txt = "We are the so-called \"Vikings\" from the north.");
+	document.getElementById("demo").innerHTML=Date();
+	document.write(txt);
+	document.write(txt.length);
+
+	print1(1,2,3);
+
+}
+
+//-->
+</script>
+</head>
+
+<body>
+<p id="demo">This is a paragraph.</p>
+<button type="button" onclick="print_test()" >test </button>
+</body>
+</html> 
+

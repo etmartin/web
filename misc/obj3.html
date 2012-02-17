@@ -1,0 +1,94 @@
+<html>
+<head>
+
+<script type="text/javascript">
+
+// Namespace to protect this library from conflicting with external
+var train = train || {};
+
+train.name="Big";
+train.version="V1";
+
+
+/* Box object constructor */
+function box(size){
+	this.size=size;
+}
+
+/* Member function */
+box.prototype.show = function(){
+	document.write("Box size is" + this.size);
+}
+
+/* Member function */
+box.prototype.inc = function(){
+	this.size++;
+}
+
+/* Wagon constructor */
+function wagon(size,length)
+{
+	this.box = new box(size);
+	this.length = length;
+}
+
+/* Member function */
+wagon.prototype.show = function(){
+	document.write("Wagon length is" + this.length);
+}
+
+/* Train constructor 
+ * Note that train is an object global;
+ */
+train.main = function(){
+	this.wagon = new wagon(5,5);
+	this.t = new wagon(6,6);
+
+}
+
+train.main.prototype.show = function(){
+	
+	document.write("train " + train.name + train.version);
+	document.write(" +++++++ ");
+	document.write(this.wagon.show() + this.wagon.box.show());
+	document.write(this.t.show() + this.t.box.show());
+	document.write(" +++++++ ");
+}
+
+function m(){
+	a = new box(5);
+	b = new box(10);
+	c = new wagon(1,2);
+	d = new train.main();
+
+	a.show();
+	b.show();
+	a.inc();
+	b.inc();
+	a.show();
+	b.show();
+	c.box.show();
+	c.show();
+	c.box.inc();
+	c.box.show();
+
+	d.show();
+	d.wagon.show();
+	d.wagon.box.show();
+
+}
+</script>
+
+
+</head>
+
+<body>
+
+<h1>My First Web Page</h1>
+<p id="demo">This is a paragraph.</p>
+<button type="button" onclick="m()" >Date </button>
+<button type="button" onclick="d()" >Date </button>
+
+</body>
+</html> 
+

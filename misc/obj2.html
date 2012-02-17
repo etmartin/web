@@ -1,0 +1,58 @@
+<html>
+<head>
+
+<script type="text/javascript">
+
+/* No type definition for the class */
+
+/* Box object constructor */
+function box(size){
+	this.size=size;
+}
+
+/* Member function */
+box.prototype.show = function(){
+	document.write("Box size is" + this.size);
+}
+
+/* Member function */
+box.prototype.inc = function(){
+	this.size++;
+}
+
+/* Wagon constructor */
+function wagon(size,lenght)
+{
+	this.box = new box(size);
+}
+
+function m(){
+	a = new box(5);
+	b = new box(10);
+	c = new wagon(1,2);
+	a.show();
+	b.show();
+	a.inc();
+	b.inc();
+	a.show();
+	b.show();
+	c.box.show();
+	c.box.inc();
+	c.box.show();
+
+}
+</script>
+
+
+</head>
+
+<body>
+
+<h1>My First Web Page</h1>
+<p id="demo">This is a paragraph.</p>
+<button type="button" onclick="m()" >Date </button>
+<button type="button" onclick="d()" >Date </button>
+
+</body>
+</html> 
+

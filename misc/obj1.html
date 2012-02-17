@@ -1,0 +1,38 @@
+<html>
+<head>
+
+<script type="text/javascript">
+
+function test (val){
+	this.val = val;
+	/* Inline definition of the member function */
+	this.print = function (){alert ( this.val)}
+}
+
+/* This is a member function */
+test.prototype.change = function (q){
+	this.val = q;
+}
+
+function m(){
+	t1 = new test(1);
+	t1.print();
+	t1.change(2);
+	t1.print();
+}
+
+</script>
+
+
+</head>
+
+<body>
+
+<h1>My First Web Page</h1>
+<p id="demo">This is a paragraph.</p>
+<button type="button" onclick="m()" >Date </button>
+<button type="button" onclick="d()" >Date </button>
+
+</body>
+</html> 
+

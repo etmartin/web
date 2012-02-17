@@ -1,0 +1,11 @@
+simple_gcal_example:
+	This is an example of a JS client code that fetch event from a public Gcal
+	There is no graphical I/F in there just text and simple
+
+misc:
+	Example/test code
+
+The following git repo 'http://github.com/NacreData/CalVis3' is a JS library that hide the
+details of the google JS client library; Not that usefull but a good example. The code is 
+all messed up with Gcal calendar call together with UI Jquery update so ...
+
