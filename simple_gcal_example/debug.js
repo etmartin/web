@@ -182,6 +182,9 @@ var vsprintf = function(fmt, argv) {
 	return sprintf.apply(null, argv);
 };
 
+/*
+ * Helper function
+ */
 function DEBUG(fmt){
 //	document.getElementById("DEBUG").innerHTML=sprintf(fmt);
 	document.write(fmt);
