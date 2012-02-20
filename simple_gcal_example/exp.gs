@@ -9,13 +9,25 @@
 var cal_array;
 var cal_lenght;
 
+/*
+ * Events are queued in the browser's interpreter.
+ * Here we access a global without any lock because the assumption 
+ * is the the producer ended before we could even run; Weird run-time...
+ */
+function update_html()
+{
+	/* We construct the page dynamically */
+	HTML_PRINT('<p>Total of ' + cal_lenght + ' event(s)</p>' + '<ul>');
+
+	for(i=0;i<cal_lenght; i++){ /* For each entry */
+		HTML_PRINT('<li><strong>Event title:</strong> ' + cal_array[i].name);
+	}
+	HTML_PRINT('</ul>');
+}
+
 function fetch_feed_callback(root)
 {
-	var when;
-	var datetime;
-	var date;
-	var i,j;
-	var events;
+	var when, datetime, date, i,j, events;
 	var entries = root.feed.getEntries(); /* root.feed.getEntries() return and ARRAY of entry */
 
 	cal_lenght = entries.length;
@@ -39,8 +51,14 @@ function fetch_feed_callback(root)
 		datetime = when.getStartTime();
 		date = datetime.getDate();
 		cal_array[i].date = date;
-		PRINT(date + cal_array[i].name);
+//		PRINT(date + cal_array[i].name);
 	}
+	/* 
+	 * The operation is completed part of the event handler;
+	 * Let the JVM go back to the main loop, and schedule our self in 
+	 * the event queue
+	 */
+	setTimeout("update_html()",0);
 }
 
 function handle_error(e)
@@ -48,6 +66,7 @@ function handle_error(e)
 	alert("There was an error!");
 	alert(e.cause ? e.cause.statusText : e.message);
 }
+
 
 /*
  * Entry point called by the loader
@@ -94,24 +113,6 @@ function main()
 
 		service.getEventsFeed(query, fetch_feed_callback, handle_error);
 	}
-	setTimeout("update_html()",6000);
 }
 
-function update_html()
-{
-	var html;
-	var content = document.getElementById("DEBUG"); /* ptr to my html page */
-
-	PRINT("AAAAAAAAAAAAAAAAAAAA");
-	/* We construct the page dynamically */
-	html = '<p>Total of ' + cal_lenght + ' event(s)</p>';
-	html += '<ul>';
-	content.innerHTML = html; /* Publish the page */
-
-	//for(i=0;i<cal_lenght; i++){ /* For each entry */
-	//	html += '<li><strong>Event title:</strong> ' + cal_array[i].name;
-	//}
-	//html += '</ul>';
-	//content.innerHTML = html; /* Publish the page */
-}
 

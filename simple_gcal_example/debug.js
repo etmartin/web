@@ -185,17 +185,31 @@ var vsprintf = function(fmt, argv) {
 /*
  * Helper function
  */
+var _DEBUG_="";
 function DEBUG(fmt){
-//	document.getElementById("DEBUG").innerHTML=sprintf(fmt);
-	document.write(fmt);
+	/* For every debug re-display the whole things;
+	 * For some reason the document.write method keep the page in loading state???
+	 */
+	var content = document.getElementById("DEBUG");
+	_DEBUG_ += sprintf("<p> %s",fmt);
+	_DEBUG_ += sprintf("</p>");
+	content.innerHTML = _DEBUG_;
+}
+
+var _HTML_="";
+function HTML_PRINT(fmt){
+	var content = document.getElementById("HTML_PRINT");
+	_HTML_ += sprintf("<p> %s",fmt);
+	_HTML_ += sprintf("</p>");
+	content.innerHTML = _HTML_;
 }
 
 function PRINT(fmt){
-	document.write(fmt);
+	DEBUG(fmt);
 }
 
 function BUG(fmt){
-	alert(fmt);
+	DEBUG(fmt);
 }
 
 window.onerror = function(msg, err_url, line) {
