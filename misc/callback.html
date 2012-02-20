@@ -1,0 +1,62 @@
+<html>
+<head>
+
+<script type="text/javascript">
+<!--
+
+window.onerror = function(msg, err_url, line) {
+	var POSTData = 'msg=' + msg + '&err_url=' + err_url + '&line=' + line;
+	alert(POSTData);
+}
+
+function callbacktest(param)
+{
+	document.write(param);
+}
+
+function test(callback, param1)
+{
+	callback(param1);
+}
+
+/*
+
+function mytest(p1,p2)
+{
+	document.write(p1 +  p2);
+}
+
+function gen_callback(
+	function callback_proxy(arg1,arg2){
+		mytest(arg1,arg2);
+	}
+)
+	
+
+function TT(callback)
+{
+	callback();
+}
+*/
+function main(){
+	var x;
+
+	for (x=0;x<100;x++){
+	//	document.write("   " + t[x][0] + "__" + t[x][1] );
+	}
+	test(callbacktest," AAABBBCCCDDD");
+
+	//TT(gen_callback);
+}
+
+main();
+
+//-->
+</script>
+</head>
+
+<body>
+<p id="demo">This is a paragraph.</p>
+</body>
+</html> 
+

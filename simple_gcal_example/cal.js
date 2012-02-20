@@ -1,17 +1,22 @@
-function handle_feed(root)
-{
-	var i,j;
-	var events;
-	var html;
-	var when;
-	var datetime;
-	var date;
-	var entries = root.feed.getEntries(); /* root.feed.getEntries() return and ARRAY of entry */
-	var content = document.getElementById("DEBUG"); /* ptr to my html page */
+/*
+ * struct cal_event{
+ * 	struct date date;
+ * 	char *name;
+ * };
+ *
+ * struct cal_event cal_array[MAX_EVENT_SIZE];
+ */
+var cal_array;
+var cal_lenght;
+var module_callback;
 
-	/* We construct the page dynamically */
-	html = '<p>Total of ' + entries.length + ' event(s)</p>';
-	html += '<ul>';
+function fetch_feed_callback(root)
+{
+	var when, datetime, date, i,j, events;
+	var entries = root.feed.getEntries(); /* root.feed.getEntries() return and ARRAY of entry */
+
+	cal_lenght = entries.length;
+	cal_array = new Array(cal_lenght);
 
 	for(i=0;i<entries.length; i++){ /* For each entry */
 		events = entries[i];
@@ -21,16 +26,24 @@ function handle_feed(root)
 		 * related to it's time events.getTimes().length; Don't know what it is
 		 * events.getTimes().length always return 1 ???
 		 */
-		html += '<li><strong>Event title:</strong> ' + events.getTitle().getText();
-		for(j=0;j<events.getTimes().length;j++){
-			when  = events.getTimes()[j];
-			datetime = when.getStartTime();
-			date = datetime.getDate();
-			html += date + '</li>'; /* Append the entry to HTML */
+		cal_array[i] = new Object();
+		cal_array[i].name = events.getTitle().getText();
+		if(events.getTimes().length != 1){
+			BUG("lenght !=1 ");
 		}
+
+		when  = events.getTimes()[0];
+		datetime = when.getStartTime();
+		date = datetime.getDate();
+		cal_array[i].date = date;
+//		PRINT(date + cal_array[i].name);
 	}
-	html += '</ul>';
-	content.innerHTML = html; /* Publish the page */
+	/* 
+	 * The operation is completed part of the event handler;
+	 * Let the JVM go back to the main loop, and schedule our self in 
+	 * the event queue
+	 */
+	setTimeout(module_callback,0);
 }
 
 function handle_error(e)
@@ -39,24 +52,18 @@ function handle_error(e)
 	alert(e.cause ? e.cause.statusText : e.message);
 }
 
-/*
- * Entry point called by the loader
- */
-function main()
+function get_calendar_data(callback, ids)
 {
-	/* 
-	 * Those id are pointing to public calendar 'my experimental google cal stuff'
-	 */
-//	var id = "nv7jcevvobmfn815laghc9rod0@group.calendar.google.com";//coupon
-	var id = "9lkp4oeo8ttsk951m5e66vg750@group.calendar.google.com";//example
-	var feedurl = "https://www.google.com/calendar/feeds/"+id+"/public/full";
+	var feedurl = "https://www.google.com/calendar/feeds/"+ids+"/public/full";
 	var service = new google.gdata.calendar.CalendarService('local_example');
+
+	module_callback = callback;
 
 	if(0){
 		/*
 		 * This is the simpliest way to retreive the calendar feed
 		 */
-		service.getEventsFeed(feedurl, handle_feed, handle_error);
+		service.getEventsFeed(feedurl, fetch_feed_callback, handle_error);
 	}
 	else{
 		/*
@@ -82,7 +89,21 @@ function main()
 		query.setSortOrder('a');
 		query.setSingleEvents(true);
 
-		service.getEventsFeed(query, handle_feed, handle_error);
+		service.getEventsFeed(query, fetch_feed_callback, handle_error);
 	}
 }
+
+/*
+calvis.Calendar.prototype.getFeedUrls = function() {
+	var feedUrlArray = new Array();
+	calIds = this.calIds;
+	for ( var i = 0; i < calIds.length; i++) {
+		feedUrlArray[i] = [ 'http://www.google.com/calendar/feeds/', calIds[i],
+				'/public/full' ].join('');
+	}
+	return feedUrlArray;
+};
+*/
+
+
 
