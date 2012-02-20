@@ -191,7 +191,7 @@ function DEBUG(fmt){
 	 * For some reason the document.write method keep the page in loading state???
 	 */
 	var content = document.getElementById("DEBUG");
-	_DEBUG_ += sprintf("<p> %s",fmt);
+	_DEBUG_ += sprintf("<p> %s", fmt);
 	_DEBUG_ += sprintf("</p>");
 	content.innerHTML = _DEBUG_;
 }

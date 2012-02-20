@@ -1,0 +1,41 @@
+<html>
+<head>
+
+<script type="text/javascript">
+
+function test()
+{
+	document.write(this.id);
+}
+
+function calendar_data(id)
+{
+	this.id = id;
+	this.test();
+	/* Setting up this manually */
+	test.call(this);
+}
+
+calendar_data.prototype.test = function (){
+	document.write(this.id);
+}
+
+
+function m(){
+	a = new calendar_data(5);
+
+}
+</script>
+
+
+</head>
+
+<body>
+
+<h1>My First Web Page</h1>
+<p id="demo">This is a paragraph.</p>
+<button type="button" onclick="m()" >Date </button>
+
+</body>
+</html> 
+

@@ -1,20 +1,38 @@
-function on_data()
+function calendar_data(id)
 {
-	/* We construct the page dynamically */
-	HTML_PRINT('<p>Total of ' + cal_lenght + ' event(s)</p>' + '<ul>');
+	this.id = id;
 
-	for(i=0;i<cal_lenght; i++){ /* For each entry */
-		HTML_PRINT('<li><strong>Event title:</strong> ' + cal_array[i].name);
+	/* 
+	 * Here we use the call method part of Function class
+	 * in order to assign this
+	 */
+	get_calendar_data.call(this);
+}
+
+/*
+ * Update the UI
+ */
+calendar_data.prototype.ready = function()
+{
+	var i;
+
+	/* We construct the page dynamically */
+	HTML_PRINT('<p>Total of ' + this.cal_lenght + ' event(s)</p>' + '<ul>');
+
+	for(i=0;i<this.cal_lenght; i++){ /* For each entry */
+		HTML_PRINT('<li><strong>Event title:</strong> ' + this.cal_array[i].name);
 	}
 	HTML_PRINT('</ul>');
 }
 
 /*
- * Entry point called by the loader
- * Called from event context
- * Events are queued in the browser's interpreter.
- * Here we access a global without any lock because the assumption 
- * is the the producer ended before we could even run; Weird run-time...
+ * Entry point called by the loader.
+ * NOTE: This is called from the browser's event loop.
+ * Events are queued in the browser.
+ *
+ * Start from event page load
+ *  - Get feed event
+ *  - time out 0 event -> ready
  */
 function main()
 {
@@ -24,11 +42,7 @@ function main()
 		'9lkp4oeo8ttsk951m5e66vg750@group.calendar.google.com', //example
 	];
 */
-
 	var ids = '9lkp4oeo8ttsk951m5e66vg750@group.calendar.google.com';
-	/*
-	 * Fetch the Calendar data; Everything is callback / event driven
-	 */
-	get_calendar_data("on_data()", ids);
 
+	a = new calendar_data(ids);
 }

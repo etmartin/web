@@ -1,22 +1,16 @@
-/*
- * struct cal_event{
- * 	struct date date;
- * 	char *name;
- * };
- *
- * struct cal_event cal_array[MAX_EVENT_SIZE];
- */
-var cal_array;
-var cal_lenght;
-var module_callback;
+function handle_error(e)
+{
+	alert("There was an error!");
+	alert(e.cause ? e.cause.statusText : e.message);
+}
 
 function fetch_feed_callback(root)
 {
 	var when, datetime, date, i,j, events;
 	var entries = root.feed.getEntries(); /* root.feed.getEntries() return and ARRAY of entry */
 
-	cal_lenght = entries.length;
-	cal_array = new Array(cal_lenght);
+	this.cal_lenght = entries.length;
+	this.cal_array = new Array(this.cal_lenght);
 
 	for(i=0;i<entries.length; i++){ /* For each entry */
 		events = entries[i];
@@ -26,8 +20,8 @@ function fetch_feed_callback(root)
 		 * related to it's time events.getTimes().length; Don't know what it is
 		 * events.getTimes().length always return 1 ???
 		 */
-		cal_array[i] = new Object();
-		cal_array[i].name = events.getTitle().getText();
+		this.cal_array[i] = new Object();
+		this.cal_array[i].name = events.getTitle().getText();
 		if(events.getTimes().length != 1){
 			BUG("lenght !=1 ");
 		}
@@ -35,35 +29,45 @@ function fetch_feed_callback(root)
 		when  = events.getTimes()[0];
 		datetime = when.getStartTime();
 		date = datetime.getDate();
-		cal_array[i].date = date;
-//		PRINT(date + cal_array[i].name);
+		this.cal_array[i].date = date;
+	//	PRINT(date + this.cal_array[i].name);
 	}
-	/* 
-	 * The operation is completed part of the event handler;
-	 * Let the JVM go back to the main loop, and schedule our self in 
-	 * the event queue
+
+	/*
+	 * Let the JVM go back to the main loop, and schedule our self
+	 * back in the event queue. We are done with the data
+	 * NOTE how we save 'this' in this local; This is because the 
+	 * settimeout itself manipulate 'this'; Arg is not saved from the calling pt???
 	 */
-	setTimeout(module_callback,0);
+	if(this.ready){
+		var _this = this;
+		setTimeout(function() {_this.ready();}, 1);
+	}
 }
 
-function handle_error(e)
+function get_calendar_data()
 {
-	alert("There was an error!");
-	alert(e.cause ? e.cause.statusText : e.message);
-}
 
-function get_calendar_data(callback, ids)
-{
-	var feedurl = "https://www.google.com/calendar/feeds/"+ids+"/public/full";
+	var feedurl = "https://www.google.com/calendar/feeds/"+this.id+"/public/full";
 	var service = new google.gdata.calendar.CalendarService('local_example');
 
-	module_callback = callback;
+	/*
+	 * Here we put the callback in the function to get access to this 
+	 * and we use a proxy to put the code out of the body.
+	 * Note here how we latch 'this' into this local
+	 * This is because the callback is from a different
+	 * context and so a different 'this'...
+	 */
+	var _this = this;
+	var callback = function callback_proxy(root){
+		fetch_feed_callback.call(_this,root);
+	}
 
 	if(0){
 		/*
 		 * This is the simpliest way to retreive the calendar feed
 		 */
-		service.getEventsFeed(feedurl, fetch_feed_callback, handle_error);
+		service.getEventsFeed(feedurl, callback, handle_error);
 	}
 	else{
 		/*
@@ -89,21 +93,7 @@ function get_calendar_data(callback, ids)
 		query.setSortOrder('a');
 		query.setSingleEvents(true);
 
-		service.getEventsFeed(query, fetch_feed_callback, handle_error);
+		service.getEventsFeed(query, callback, handle_error);
 	}
 }
-
-/*
-calvis.Calendar.prototype.getFeedUrls = function() {
-	var feedUrlArray = new Array();
-	calIds = this.calIds;
-	for ( var i = 0; i < calIds.length; i++) {
-		feedUrlArray[i] = [ 'http://www.google.com/calendar/feeds/', calIds[i],
-				'/public/full' ].join('');
-	}
-	return feedUrlArray;
-};
-*/
-
-
 
