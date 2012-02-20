@@ -1,0 +1,73 @@
+<html>
+<head>
+
+<script type="text/javascript">
+<!--
+
+window.onerror = function(msg, err_url, line) {
+	var POSTData = 'msg=' + msg + '&err_url=' + err_url + '&line=' + line;
+	alert(POSTData);
+}
+
+var test = test || {};
+test.f1 = 1;
+test.f2 = 2;
+test.f3 = 3;
+test.f4 = 4;
+
+/*
+ * struct cal_event{
+ * 	struct date d;
+ * 	char *name;
+ * };
+ *
+ * struct cal_event cal[100];
+ *
+ */
+function return_an_array()
+{
+	var t = new Array();
+
+	for(x=0;x<100;x++){
+		t[x] = new Array();
+		t[x][0]=x;
+		t[x][1]=x+1;
+	}
+	return t;
+}
+
+
+function return_a_struct()
+{
+	var a = new Object();
+	a.f1 = 1;
+	a.f2 = 2;
+	a.f3 = 3;
+	a.f4 = 4;
+	return a;
+}
+
+
+function main(){
+	var x;
+	var t = return_an_array();
+	var a = return_a_struct();
+
+	for (x=0;x<100;x++){
+	//	document.write("   " + t[x][0] + "__" + t[x][1] );
+	}
+	document.write(test.f1 +""+ test.f2 +""+ test.f3 +""+ test.f4);
+	document.write(a.f1 + "" + a.f2 +"" + a.f3 +"" + a.f4);
+}
+
+main();
+
+//-->
+</script>
+</head>
+
+<body>
+<p id="demo">This is a paragraph.</p>
+</body>
+</html> 
+

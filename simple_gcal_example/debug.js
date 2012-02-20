@@ -194,6 +194,10 @@ function PRINT(fmt){
 	document.write(fmt);
 }
 
+function BUG(fmt){
+	alert(fmt);
+}
+
 window.onerror = function(msg, err_url, line) {
 	var POSTData = 'msg=' + msg + '&err_url=' + err_url + '&line=' + line;
 	alert(POSTData);
