@@ -195,7 +195,7 @@ function DEBUG(fmt){
 	_DEBUG_ += sprintf("</p>");
 	content.innerHTML = _DEBUG_;
 }
-
+//TODO fixme continuous display ????
 var _HTML_="";
 function HTML_PRINT(fmt){
 	var content = document.getElementById("HTML_PRINT");
